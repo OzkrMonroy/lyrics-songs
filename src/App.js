@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, Fragment } from 'react';
+import Formulario from './components/Formulario'
+import axios from 'axios'
 
 function App() {
+  // Creamos los elementos del state
+  const [artista, agregarArtista] = useState('')
+  const [letra, agregarLetra] = useState([])
+  const [info, agregarInfo] = useState({})
+
+  // Consultar la API de letras
+  const consultarApiLetra = async busqueda => {
+    const {artista, cancion} = busqueda
+
+    const url = `https://api.lyrics.ovh/v1/${artista}/${cancion}`
+
+    const resultado = await axios(url)
+    console.log(resultado.data.lyrics)
+
+    agregarLetra(resultado.data.lyrics)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Formulario
+        consultarApiLetra={consultarApiLetra}
+      />
+    </Fragment>
   );
 }
 
