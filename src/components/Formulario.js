@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
 function Formulario({consultarApiLetra}) {
-  // Creamos el state
-  const [busqueda, agregarBusqueda] = useState({
+  const initialState = {
     artista : '',
     cancion : ''
-  })
+  }
+
+  // Creamos el state
+  const [busqueda, agregarBusqueda] = useState(initialState)
 
   const actualizarState = e => {
     // Realiza siempre una copia del state
@@ -21,6 +23,7 @@ function Formulario({consultarApiLetra}) {
     e.preventDefault()
 
     consultarApiLetra(busqueda)
+    agregarBusqueda(initialState)
   }
 
   return (
@@ -42,6 +45,7 @@ function Formulario({consultarApiLetra}) {
                       placeholder="Nombre Artista"
                       required
                       onChange={actualizarState}
+                      value={busqueda.artista}
                     />
                   </div>
                 </div>
@@ -55,6 +59,7 @@ function Formulario({consultarApiLetra}) {
                       placeholder="Nombre Canción"
                       required
                       onChange={actualizarState}
+                      value={busqueda.cancion}
                     />
                   </div>
                 </div>
